@@ -1,8 +1,5 @@
 package modelo;
 
-import modelo.GestionParticipantes;
-import modelo.RegistroParticipante;
-import modelo.Participante;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistencia.RegistroParticipanteFake;
@@ -22,28 +19,52 @@ class GestionParticipantesTest {
 
     @Test
     void noDeberiaAceptarNombreVacio() {
-        Exception ex = assertThrows(IllegalArgumentException.class, () -> {
-            sistema.guardar("", "1234-123456", "China");
-        });
 
-        assertEquals("Debe cargar un nombre", ex.getMessage());
+        Exception ex =
+                assertThrows(
+                        IllegalArgumentException.class,
+                        () -> sistema.guardar(
+                                "",
+                                "1234-123456",
+                                "China",
+                                "juan@gmail.com"));
+
+        assertEquals(
+                "Debe cargar un nombre",
+                ex.getMessage());
     }
 
     @Test
     void noDeberiaAceptarTelefonoInvalido() {
-        Exception ex = assertThrows(IllegalArgumentException.class, () -> {
-            sistema.guardar("Juan", "123", "China");
-        });
 
-        assertTrue(ex.getMessage().contains("teléfono"));
+        Exception ex =
+                assertThrows(
+                        IllegalArgumentException.class,
+                        () -> sistema.guardar(
+                                "Juan",
+                                "123",
+                                "China",
+                                "juan@gmail.com"));
+
+        assertTrue(
+                ex.getMessage()
+                        .contains("teléfono"));
     }
 
     @Test
     void noDeberiaAceptarRegionInvalida() {
-        Exception ex = assertThrows(IllegalArgumentException.class, () -> {
-            sistema.guardar("Juan", "1234-123456", "Argentina");
-        });
 
-        assertTrue(ex.getMessage().contains("Region"));
+        Exception ex =
+                assertThrows(
+                        IllegalArgumentException.class,
+                        () -> sistema.guardar(
+                                "Juan",
+                                "1234-123456",
+                                "Argentina",
+                                "juan@gmail.com"));
+
+        assertTrue(
+                ex.getMessage()
+                        .contains("Region"));
     }
 }
