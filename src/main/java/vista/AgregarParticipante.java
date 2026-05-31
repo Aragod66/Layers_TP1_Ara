@@ -1,6 +1,6 @@
 package vista;
 
-import modelo.*;
+import modelo.GestionParticipantes;
 
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
@@ -14,12 +14,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-
-
 public class AgregarParticipante extends JFrame {
+
     private JTextField nombre;
     private JTextField telefono;
     private JTextField region;
+    private JTextField email;
+
     private GestionParticipantes sistema;
 
     public AgregarParticipante(GestionParticipantes sistema) {
@@ -28,49 +29,86 @@ public class AgregarParticipante extends JFrame {
     }
 
     private void setupUIComponents() {
+
         setTitle("Add Participant");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         this.nombre = new JTextField(10);
         this.telefono = new JTextField(10);
         this.region = new JTextField(10);
+        this.email = new JTextField(20);
+
         this.nombre.setText("");
         this.telefono.setText("");
         this.region.setText("China");
+        this.email.setText("");
+
         JPanel contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        contentPane.setLayout(new FlowLayout());
-        contentPane.add(new JLabel("Nombre: "));
+
+        contentPane.setBorder(
+                new EmptyBorder(5, 5, 5, 5));
+
+        contentPane.setLayout(
+                new FlowLayout());
+
+        contentPane.add(
+                new JLabel("Nombre: "));
         contentPane.add(nombre);
-        contentPane.add(new JLabel("Telefono: "));
+
+        contentPane.add(
+                new JLabel("Telefono: "));
         contentPane.add(telefono);
-        contentPane.add(new JLabel("Region: "));
+
+        contentPane.add(
+                new JLabel("Region: "));
         contentPane.add(region);
-        JButton botonCargar = new JButton("Cargar");
-        botonCargar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    onBotonCargar();
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
+
+        contentPane.add(
+                new JLabel("Email: "));
+        contentPane.add(email);
+
+        JButton botonCargar =
+                new JButton("Cargar");
+
+        botonCargar.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(
+                            ActionEvent e) {
+                        onBotonCargar();
+                    }
+                });
 
         contentPane.add(botonCargar);
+
         setContentPane(contentPane);
-        contentPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+
+        contentPane.setComponentOrientation(
+                ComponentOrientation.LEFT_TO_RIGHT);
+
         pack();
         setVisible(true);
     }
+
     private void onBotonCargar() {
+
         try {
-            sistema.guardar(nombre.getText(), telefono.getText(), region.getText());
+
+            sistema.guardar(
+                    nombre.getText(),
+                    telefono.getText(),
+                    region.getText(),
+                    email.getText());
+
             dispose();
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    e.getMessage());
+
         }
-
     }
-
 }

@@ -1,11 +1,28 @@
 package modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GestionParticipantes {
 
     RegistroParticipante registroParticipante;
 
+    private final List<Observer> observers = new ArrayList<>();
+
     public GestionParticipantes(RegistroParticipante registroParticipante){
         this.registroParticipante = registroParticipante;
+    }
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    private void notifyObservers(
+            Participante participante) {
+
+        for (Observer observer : observers) {
+            observer.update(participante);
+        }
     }
 
     public boolean validarTelefono(String telefono) {
@@ -17,7 +34,7 @@ public class GestionParticipantes {
         return region.equals("China") || region.equals("US") || region.equals("Europa");
     }
 
-    public void guardar(String nombre, String telefono,String region) throws Exception {
+    public void guardar(String nombre, String telefono,String region, String email) throws Exception {
         if (nombre.isEmpty()) {
             throw new IllegalArgumentException("Debe cargar un nombre");
         }
@@ -31,7 +48,8 @@ public class GestionParticipantes {
             throw new IllegalArgumentException("Region desconocida. Las conocidas son: China, US, Europa");
         }
 
-        registroParticipante.persistir(new Participante(nombre, telefono, region));
+        notifyObservers(new Participante(nombre, telefono, region, email));
 
+        registroParticipante.persistir(new Participante(nombre, telefono, region, email));
     }
 }
